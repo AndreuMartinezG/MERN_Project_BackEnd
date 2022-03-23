@@ -29,12 +29,14 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    followers: [{
-        type: Array,
-        Id_follower: {
-            type: String,
+    followers: [
+        
+        {
+        _id: String,
+        id_follower: String
         }
-    }],
+    ],
+
     isAdmin: {
         type: Boolean,
         default: false

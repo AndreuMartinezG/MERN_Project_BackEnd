@@ -7,5 +7,9 @@ const UsersController = require('../controllers/UsersController');
 //Registro
 router.post('/', UsersController.userRegister);
 
+//New Follow
+router.post('/following', UsersController.userFollow);
+
+
 
 module.exports = router

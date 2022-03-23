@@ -45,4 +45,40 @@ UsersController.userRegister = async (req, res) => {
 
 
 
+
+UsersController.userFollow = async (req, res) => {
+
+
+    let _id = req.body._id
+
+    let id_follower = req.body.id_follower
+
+    User.find({
+        _id: _id
+    }).then(userFind => {
+        
+        if (userFind == true) {
+            try{
+
+                User.followers.update(
+                    { _id: _id }, 
+                    { $push: { id_follower: id_follower } },
+                    done
+                );
+
+            }catch(error){
+                res.send(error)
+            }
+
+        } else {
+            res.send("El usuario con ese e-mail ya existe en nuestra base de datos");
+        }
+    }).catch(error => {
+        res.send(error)
+    });
+}
+
+
+
+
 module.exports = UsersController;
