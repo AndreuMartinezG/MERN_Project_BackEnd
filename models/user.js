@@ -20,8 +20,6 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        match: /(?=.*[a-zA-Z])(?=.*[0-9]+).*/,
-        minlength: 8
     },
     email: {
         type: String,
