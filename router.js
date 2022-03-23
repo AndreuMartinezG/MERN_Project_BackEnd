@@ -1,8 +1,9 @@
 const router = require('express').Router();
 
-const UsuariosRouter = require('./views/UsuariosRouter');
+const UsersRouter = require('./views/UsersRouter');
+const ThreadsRouter = require('./views/ThreadsRouter')
 
-
-router.use('/usuarios', UsuariosRouter);
+router.use('/users', UsersRouter);
+router.use('/threads', ThreadsRouter);
 
 module.exports = router;
