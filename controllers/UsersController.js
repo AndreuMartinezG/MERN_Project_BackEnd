@@ -19,6 +19,8 @@ UsersController.userRegister = async (req, res) => {
     //Comprobación de errores.....
     User.find({
         email: email
+
+        //SERIA BUENA IDEA SOLICITAR COMPROBACION DE NO REPETIR NICK
     }).then(datosRepetidos => {
 
         if (datosRepetidos == false) {
@@ -41,13 +43,11 @@ UsersController.userRegister = async (req, res) => {
     }).catch(error => {
         res.send(error)
     });
-    //Guardamos en sequelize el usuario
 };
 
 
 // FUNCION PARA AÑADIR NUEVOS AMIGOS
 UsersController.userFollow = async (req, res) => {
-
 
     let _id = req.body._id
 
@@ -55,7 +55,6 @@ UsersController.userFollow = async (req, res) => {
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
-        console.log("entramos aqui")
         await User.findOneAndUpdate(
             { _id: _id },
             {
@@ -67,8 +66,7 @@ UsersController.userFollow = async (req, res) => {
                 }
             }
         )
-        console.log("PasamosPush")
-        res.send("Correcto")
+        res.send("Has Comenzado a seguir a esta persona")
 
     } catch (error) {
         res.send(error)
@@ -86,20 +84,15 @@ UsersController.userLogin = async (req, res) => {
         email: email
     }).then(Usuario => {
 
-
         if (!Usuario) {
-            
-            console.log("Estamos en IF")
             res.send("Usuario o contraseña inválido");
 
         } else {
-
 
             if (bcrypt.compareSync(password, Usuario.password)) { //COMPARA CONTRASEÑA INTRODUCIDA CON CONTRASEÑA GUARDADA, TRAS DESENCRIPTAR
 
                 let token = jwt.sign({ user: Usuario }, authConfig.secret, {
                     expiresIn: authConfig.expires
-
                 });
 
                 Usuario.token = token
