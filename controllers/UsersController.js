@@ -88,17 +88,15 @@ UsersController.userLogin = async (req, res) => {
 
 
         if (!Usuario) {
+            
             console.log("Estamos en IF")
             res.send("Usuario o contraseña inválido");
 
         } else {
-            //el usuario existe, por lo tanto, vamos a comprobar
-            //si el password es correcto
-            console.log("Estamos en else")
+
 
             if (bcrypt.compareSync(password, Usuario.password)) { //COMPARA CONTRASEÑA INTRODUCIDA CON CONTRASEÑA GUARDADA, TRAS DESENCRIPTAR
 
-                console.log("Estamos segundo if", Usuario)
                 let token = jwt.sign({ user: Usuario }, authConfig.secret, {
                     expiresIn: authConfig.expires
 
@@ -112,11 +110,9 @@ UsersController.userLogin = async (req, res) => {
                 })
 
             } else {
-                console.log("Estamos segundo else", Usuario)
                 res.status(401).json({ msg: "Usuario o contraseña inválidos" });
             }
         };
-        console.log("EStammos fuera")
 
     }).catch(error => {
         res.send(error);
