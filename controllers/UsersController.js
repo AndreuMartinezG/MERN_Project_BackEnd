@@ -1,5 +1,6 @@
 const UsersController = {};
-const { User } = require('../models/user.js');
+const authConfig = require('../config/auth');
+const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 
 //Registro de usuarios
@@ -8,21 +9,23 @@ UsersController.userRegister = async (req, res) => {
     //Registrando un usuario
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
-    let age = req.body.edad;
+    let birthday = req.body.birthday;
     let email = req.body.email;
     let userName = req.body.userName;
     let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
  
 
     //Comprobación de errores.....
-    User.findAll({
-        where: { email: email }
+    User.find({
+        email: email
     }).then(datosRepetidos => {
-        if (datosRepetidos == 0) {
-            Usuario.create({
+        
+        if (datosRepetidos == false) {
+            console.log("ESTOY AQUI")
+            User.create({
                 firstName: firstName,
                 lastName: lastName,
-                age: age,
+                birthday: birthday,
                 email: email,
                 userName: userName,
                 password: password,
@@ -38,9 +41,6 @@ UsersController.userRegister = async (req, res) => {
         res.send(error)
     });
     //Guardamos en sequelize el usuario
-
-
-
 };
 
 
