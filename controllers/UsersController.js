@@ -2,7 +2,7 @@ const UsersController = {};
 const authConfig = require('../config/auth');
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
-const { use } = require('bcrypt/promises');
+const jwt = require('jsonwebtoken');
 
 //Registro de usuarios
 UsersController.userRegister = async (req, res) => {
@@ -22,7 +22,7 @@ UsersController.userRegister = async (req, res) => {
     }).then(datosRepetidos => {
 
         if (datosRepetidos == false) {
-            
+
             User.create({
                 firstName: firstName,
                 lastName: lastName,
@@ -45,8 +45,7 @@ UsersController.userRegister = async (req, res) => {
 };
 
 
-
-
+// FUNCION PARA AÑADIR NUEVOS AMIGOS
 UsersController.userFollow = async (req, res) => {
 
 
@@ -57,8 +56,8 @@ UsersController.userFollow = async (req, res) => {
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
         console.log("entramos aqui")
-        User.findOneAndUpdate(
-            { _id: _id},
+        await User.findOneAndUpdate(
+            { _id: _id },
             {
                 $push: {
                     followers: {
@@ -67,7 +66,6 @@ UsersController.userFollow = async (req, res) => {
                     }
                 }
             }
-            
         )
         console.log("PasamosPush")
         res.send("Correcto")
@@ -75,12 +73,56 @@ UsersController.userFollow = async (req, res) => {
     } catch (error) {
         res.send(error)
     }
-
-
-
 }
 
 
+//LOGIN
+UsersController.userLogin = async (req, res) => {
+
+    let email = req.body.email;
+    let password = req.body.password;
+
+    User.findOne({
+        email: email
+    }).then(Usuario => {
+
+
+        if (!Usuario) {
+            console.log("Estamos en IF")
+            res.send("Usuario o contraseña inválido");
+
+        } else {
+            //el usuario existe, por lo tanto, vamos a comprobar
+            //si el password es correcto
+            console.log("Estamos en else")
+
+            if (bcrypt.compareSync(password, Usuario.password)) { //COMPARA CONTRASEÑA INTRODUCIDA CON CONTRASEÑA GUARDADA, TRAS DESENCRIPTAR
+
+                console.log("Estamos segundo if", Usuario)
+                let token = jwt.sign({ user: Usuario }, authConfig.secret, {
+                    expiresIn: authConfig.expires
+
+                });
+
+                Usuario.token = token
+                res.json({
+                    user: Usuario,
+                    token: token,
+                    loginSucces: true
+                })
+
+            } else {
+                console.log("Estamos segundo else", Usuario)
+                res.status(401).json({ msg: "Usuario o contraseña inválidos" });
+            }
+        };
+        console.log("EStammos fuera")
+
+    }).catch(error => {
+        res.send(error);
+    })
+
+}
 
 
 module.exports = UsersController;

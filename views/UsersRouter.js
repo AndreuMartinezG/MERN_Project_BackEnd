@@ -7,8 +7,11 @@ const UsersController = require('../controllers/UsersController');
 //Registro
 router.post('/', UsersController.userRegister);
 
-//New Follow
+//New Follow // FUNCION PARA AÑADIR NUEVOS AMIGOS
 router.post('/following', UsersController.userFollow);
+
+//Login
+router.post('/login', UsersController.userLogin)
 
 
 
