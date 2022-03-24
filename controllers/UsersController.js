@@ -46,6 +46,25 @@ UsersController.userRegister = async (req, res) => {
 };
 
 
+//Traer a todos los usuarios
+
+UsersController.allUser = async (req, res) => {
+
+    try {
+
+        await User.find()
+            .then(data => {
+                res.send(data)
+            }).catch(error => {
+                res.send(error)
+            })
+
+    } catch (error) {
+
+        res.send(error)
+    }
+}
+
 
 //Borrar un usuario
 UsersController.userDelete = async (req, res) => {
@@ -54,7 +73,7 @@ UsersController.userDelete = async (req, res) => {
 
     try {
 
-        User.findByIdAndDelete({
+        await User.findByIdAndDelete({
             _id : _id 
         })
         .then(userDelete => {
