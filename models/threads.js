@@ -23,7 +23,7 @@ const threadSchema = new Schema({
             id_owner: String,
             userName_owner: String,
             headLine_post: String,
-            text_post: Text,
+            text_post: String,
             likes : Number,
             dislikes : Number,
             created_post: {
