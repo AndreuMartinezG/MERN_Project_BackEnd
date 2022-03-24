@@ -3,6 +3,7 @@ const authConfig = require('../config/auth');
 const Thread = require('../models/threads.js');
 
 
+//Creacion de nuevos Threads
 ThreadsController.threadCreation = async (req, res) => {
 
     let id_owner = req.body.id_owner
@@ -14,15 +15,15 @@ ThreadsController.threadCreation = async (req, res) => {
 
     }).then(data => {
 
-        if(data == false){
+        if (data == false) {
 
             Thread.create({
                 id_owner: id_owner,
                 userName_owner: userName_owner,
                 headLine: headLine
-            }).then(thread =>{
+            }).then(thread => {
                 res.send(`${thread.headLine} thread created`)
-            }).catch(error =>{
+            }).catch(error => {
                 res.send(error)
             })
 
@@ -37,4 +38,26 @@ ThreadsController.threadCreation = async (req, res) => {
 
 }
 
+
+//Delete Threads by Id
+ThreadsController.threadDelete = async (req, res) => {
+
+    let _id = req.body._id
+
+    try {
+
+        await Thread.findByIdAndDelete({
+            _id: _id
+        })
+        .then(threadDelete => {
+            console.log(threadDelete);
+            res.send(`The Thread named ${threadDelete.headLine} has been deleted`);
+        }).catch(error=>{
+            res.send(error)
+        })
+
+    } catch (error) {
+        res.send(error);
+    }
+}
 module.exports = ThreadsController;
