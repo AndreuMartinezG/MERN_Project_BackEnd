@@ -47,11 +47,13 @@ UsersController.userRegister = async (req, res) => {
 
 
 // FUNCION PARA AÑADIR NUEVOS AMIGOS
-UsersController.userFollow = async (req, res) => {
+UsersController.userFollowing = async (req, res) => {
 
     let _id = req.body._id
 
-    let id_follower = req.body.id_follower
+    let id_following = req.body.id_following
+    let name_following = req.body.name_following
+    let userName = req.body.userName
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
@@ -59,9 +61,10 @@ UsersController.userFollow = async (req, res) => {
             { _id: _id },
             {
                 $push: {
-                    followers: {
-                        "_id": _id,
-                        "id_follower": id_follower
+                    following: {
+                        "id_following": id_following,
+                        "name_following": name_following,
+                        "userName": userName
                     }
                 }
             }
