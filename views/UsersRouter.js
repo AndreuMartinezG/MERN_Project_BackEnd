@@ -19,7 +19,7 @@ router.get('/profile', UsersController.userProfile)
 //New Followed
 router.post('/followed', UsersController.userfollowed);
 
-//Delete followed
+//Delete followed /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
 router.delete('/followed', UsersController.userUnfollow);
 
 //Login

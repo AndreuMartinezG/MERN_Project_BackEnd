@@ -136,7 +136,7 @@ UsersController.userfollowed = async (req, res) => {
 }
 
 
-//Unfollow user
+//Unfollow user /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
 UsersController.userUnfollow = async (req, res) => {
 
     let _id = req.body._id
@@ -152,7 +152,7 @@ UsersController.userUnfollow = async (req, res) => {
                 console.log(value, "Soy valueeeeeeeeeeeeeeeee")
                 value.findByIdAndDelete({
                     _id_followed: _id
-                    
+
                 })
                     .then(userDelete => {
 
