@@ -38,7 +38,6 @@ ThreadsController.threadCreation = async (req, res) => {
 
 }
 
-
 //Delete Threads by Id
 ThreadsController.threadDelete = async (req, res) => {
 
@@ -109,6 +108,12 @@ ThreadsController.threadNewPost = async(req, res) => {
     } catch (error) {
         res.send(error)
     } 
+}
+
+//Delete Post by Id Owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
+ThreadsController.threadPostDelete = async (req, res) => {
+
+
 }
 
 module.exports = ThreadsController;
