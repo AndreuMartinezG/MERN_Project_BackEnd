@@ -45,9 +45,7 @@ UsersController.userRegister = async (req, res) => {
     });
 };
 
-
 //Traer a todos los usuarios
-
 UsersController.allUser = async (req, res) => {
 
     try {
@@ -64,7 +62,6 @@ UsersController.allUser = async (req, res) => {
         res.send(error)
     }
 }
-
 
 //Borrar un usuario
 UsersController.userDelete = async (req, res) => {
@@ -86,7 +83,26 @@ UsersController.userDelete = async (req, res) => {
     }
 }
 
+//Peril de usuario por ID
+UsersController.userProfile = async (req, res) => {
 
+    let _id = req.body._id
+
+    try {
+
+        User.findById({
+            _id: _id
+        }).then(data => {
+            res.send(data)
+        }).catch(error => {
+            res.send(error)
+        })
+
+    }catch(error){
+
+        res.send(error)
+    }
+}
 
 // FUNCION PARA AÑADIR NUEVOS AMIGOS
 UsersController.userfollowed = async (req, res) => {
@@ -117,7 +133,6 @@ UsersController.userfollowed = async (req, res) => {
         res.send(error)
     }
 }
-
 
 //LOGIN
 UsersController.userLogin = async (req, res) => {
