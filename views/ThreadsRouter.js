@@ -8,9 +8,11 @@ const ThreadsController = require('../controllers/ThreadsController');
 //Creacion nuevo Thread
 router.post('/', ThreadsController.threadCreation);
 
-
 //Eliminar un thread por Id
 router.delete('/', ThreadsController.threadDelete);
+
+//Traer todos los threads
+router.get('/', ThreadsController.threadAll)
 
 
 
