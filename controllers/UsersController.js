@@ -77,6 +77,8 @@ UsersController.userDelete = async (req, res) => {
             .then(userDelete => {
                 console.log(userDelete);
                 res.send(`El usuario con el nombre ${userDelete.firstName} ha sido eliminado`);
+            }).catch(error =>{
+                res.send(error)
             })
 
     } catch (error) {
