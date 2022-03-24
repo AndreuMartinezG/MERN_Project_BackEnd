@@ -15,6 +15,10 @@ router.delete('/', ThreadsController.threadDelete);
 router.get('/', ThreadsController.threadAll)
 
 
+//New Post
+router.post('/post', ThreadsController.threadNewPost)
+
+
 
 
 

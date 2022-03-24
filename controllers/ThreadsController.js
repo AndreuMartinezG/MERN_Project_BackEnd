@@ -79,4 +79,36 @@ ThreadsController.threadAll = async(req, res) => {
     }
 }
 
+//New Post
+ThreadsController.threadNewPost = async(req, res) => {
+
+    let _id = req.body._id
+
+    let id_owner = req.body.id_owner
+    let userName_owner = req.body.userName_owner
+    let headLine_post = req.body.headLine_post
+    let text_post = req.body.text_post
+
+    // Enviar Mensaje al usuario que ya sigue a esa persona
+    try {
+        await Thread.findOneAndUpdate(
+            { _id: _id },
+            {
+                $push: {
+                    post: {
+                        "id_owner": id_owner,
+                        "userName_owner": userName_owner,
+                        "headLine_post": headLine_post,
+                        "text_post": text_post
+                    }
+                }
+            }
+        )
+        res.send("New Post Created")
+
+    } catch (error) {
+        res.send(error)
+    } 
+}
+
 module.exports = ThreadsController;
