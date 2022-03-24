@@ -34,8 +34,8 @@ const userSchema = new Schema({
         {
         
         id_followed: String,
-        name : String,
-        userName: String,
+        name_followed : String,
+        userName_followed: String,
         }
     ],
     followers: [

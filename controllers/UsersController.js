@@ -111,7 +111,7 @@ UsersController.userfollowed = async (req, res) => {
     
     let id_followed = req.body.id_followed
     let name_followed = req.body.name_followed
-    let userName = req.body.userName_followed
+    let userName_followed = req.body.userName_followed
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
