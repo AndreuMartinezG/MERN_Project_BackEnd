@@ -12,7 +12,7 @@ router.post('/', UsersController.userRegister);
 router.delete('/', UsersController.userDelete)
 
 //New Follow // FUNCION PARA AÑADIR NUEVOS AMIGOS
-router.post('/following', UsersController.userFollowing);
+router.post('/followed', UsersController.userfollowed);
 
 //Login
 router.post('/login', UsersController.userLogin)

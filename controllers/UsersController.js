@@ -46,14 +46,37 @@ UsersController.userRegister = async (req, res) => {
 };
 
 
-// FUNCION PARA AÑADIR NUEVOS AMIGOS
-UsersController.userFollowing = async (req, res) => {
+
+//Borrar un usuario
+UsersController.userDelete = async (req, res) => {
 
     let _id = req.body._id
 
-    let id_following = req.body.id_following
-    let name_following = req.body.name_following
-    let userName = req.body.userName
+    try {
+
+        User.findByIdAndDelete({
+            _id : _id 
+        })
+        .then(userDelete => {
+            console.log(userDelete);
+            res.send(`El usuario con el nombre ${userDelete.firstName} ha sido eliminado`);
+        })
+
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+
+
+// FUNCION PARA AÑADIR NUEVOS AMIGOS
+UsersController.userfollowed = async (req, res) => {
+
+    let _id = req.body._id
+    
+    let id_followed = req.body.id_followed
+    let name_followed = req.body.name_followed
+    let userName = req.body.userName_followed
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
@@ -61,10 +84,10 @@ UsersController.userFollowing = async (req, res) => {
             { _id: _id },
             {
                 $push: {
-                    following: {
-                        "id_following": id_following,
-                        "name_following": name_following,
-                        "userName": userName
+                    followed: {
+                        "id_followed": id_followed,
+                        "name_followed": name_followed,
+                        "userName_followed": userName_followed
                     }
                 }
             }

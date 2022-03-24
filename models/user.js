@@ -29,11 +29,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    following: [
+    followed: [
         
         {
         
-        id_following: String,
+        id_followed: String,
         name : String,
         userName: String,
         }
