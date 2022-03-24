@@ -69,14 +69,15 @@ UsersController.userDelete = async (req, res) => {
     let _id = req.body._id
 
     try {
+        
 
         await User.findByIdAndDelete({
-            _id : _id 
+            _id: _id
         })
-        .then(userDelete => {
-            console.log(userDelete);
-            res.send(`El usuario con el nombre ${userDelete.firstName} ha sido eliminado`);
-        })
+            .then(userDelete => {
+                console.log(userDelete);
+                res.send(`El usuario con el nombre ${userDelete.firstName} ha sido eliminado`);
+            })
 
     } catch (error) {
         res.send(error);
@@ -98,7 +99,7 @@ UsersController.userProfile = async (req, res) => {
             res.send(error)
         })
 
-    }catch(error){
+    } catch (error) {
 
         res.send(error)
     }
@@ -108,7 +109,7 @@ UsersController.userProfile = async (req, res) => {
 UsersController.userfollowed = async (req, res) => {
 
     let _id = req.body._id
-    
+
     let id_followed = req.body.id_followed
     let name_followed = req.body.name_followed
     let userName_followed = req.body.userName_followed
@@ -131,7 +132,44 @@ UsersController.userfollowed = async (req, res) => {
 
     } catch (error) {
         res.send(error)
+    } 
+}
+
+
+//Unfollow user
+UsersController.userUnfollow = async (req, res) => {
+
+    let _id = req.body._id
+    let _id_followed = req.body._id_followed
+
+    try {
+        await User.findOne(
+            { _id: _id })
+        .then(userFind => {
+            console.log(userFind.followed)
+
+            userFind.followed.map(value => {
+                console.log(value, "Soy valueeeeeeeeeeeeeeeee")
+                value.findByIdAndDelete({
+                    _id_followed: _id
+                    
+                })
+                    .then(userDelete => {
+
+                        console.log(userDelete);
+                        res.send(`El usuario con el nombre ha sido eliminado`);
+
+                    })
+                
+                res.send("Has dejado de seguir a esta persona")
+            })
+        })
+
+    } catch (error) {
+        res.send(error)
     }
+
+
 }
 
 //LOGIN
@@ -180,32 +218,60 @@ module.exports = UsersController;
 
 
 
+// let _id = req.body._id
+// let id_followed = req.body.id_followed
 
+// try {
+//     await User.findOne(
+//         { _id: _id })
+//     .then(userFind => {
 
+//         userFind.followed.map(value => {
+//             console.log(value, "VALUEEEEEEEEEEEEEEEEEEEEEEE")
+//             if (value.id_followed === (id_followed)){
+//                 value.find()
+                
+//             }else{
+//                 console.log("Nainnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+//             }
+//         })
+//     })
+    
+//     res.send("Has dejado de seguir a esta persona")
 
-
-// User.find({
-//     _id: _id
-// }).then(userFind => {
-//     if ("623b59aa3f4be1962d582f5f" === "623b59aa3f4be1962d582f5f") {
-
-//         console.log("entramos if")
-//         try{
-//             console.log("Entramos a update")
-//             User.followers.updateOne(
-//                 { _id: _id },
-//                 { $push: [{ id_follower: id_follower}] },
-//                 res.send("Hemos pasado el update")
-//             );
-
-//         }catch(error){
-//             res.send(error)
-//         }
-
-//     } else {
-//         res.send("la id del usuario a seguir no existe");
-//     }
-
-// }).catch(error => {
+// } catch (error) {
 //     res.send(error)
-// });
+// }
+
+
+////////////////////////////////////////////////////////////////////////////////////////version 2 entra en el if ///////////////////////////
+
+
+// try {
+//     await User.findOne(
+//         { _id: _id })
+//     .then(userFind => {
+
+//         userFind.followed.map(value => {
+//             console.log(value, "VALUEEEEEEEEEEEEEEEEEEEEEEE")
+//             if (value.id_followed === (id_followed)){
+//                 console.log("entramossssssssssssssssssssssss")
+//                 value.deleteOne()
+//                 .then(res=>{
+//                     console.log("entramos en el delete")
+//                     res.send(res)
+//                 }).catch(error => {
+//                     res.send(error)
+//                 })
+                
+//             }else{
+//                 console.log("Nainnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+//             }
+//         })
+//     })
+    
+//     res.send("Has dejado de seguir a esta persona")
+
+// } catch (error) {
+//     res.send(error)
+// }

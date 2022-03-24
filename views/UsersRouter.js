@@ -16,8 +16,11 @@ router.delete('/', UsersController.userDelete)
 //Traer usuario por Id
 router.get('/profile', UsersController.userProfile)
 
-//New Follow // FUNCION PARA AÑADIR NUEVOS AMIGOS
+//New Followed
 router.post('/followed', UsersController.userfollowed);
+
+//Delete followed
+router.delete('/followed', UsersController.userUnfollow);
 
 //Login
 router.post('/login', UsersController.userLogin)
