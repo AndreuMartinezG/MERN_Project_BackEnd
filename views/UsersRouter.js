@@ -1,30 +1,31 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const UsersController = require('../controllers/UsersController');
+const UsersController = require("../controllers/UsersController");
 
 // AQUI VA EL CRUD de Users
 
 //Registro
-router.post('/', UsersController.userRegister);
+router.post("/", UsersController.userRegister);
 
 //Traer todos los usuarios
-router.get('/', UsersController.allUser)
+router.get("/", UsersController.allUser);
 
 //Borrar Usuarios
-router.delete('/', UsersController.userDelete)
+router.delete("/", UsersController.userDelete);
+
+//updateUser
+router.put("/", UsersController.userUpdate);
 
 //Traer usuario por Id
-router.get('/profile', UsersController.userProfile)
+router.get("/profile", UsersController.userProfile);
 
 //New Followed
-router.post('/followed', UsersController.userfollowed);
+router.post("/followed", UsersController.userfollowed);
 
 //Delete followed /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
-router.delete('/followed', UsersController.userUnfollow);
+router.delete("/followed", UsersController.userUnfollow);
 
 //Login
-router.post('/login', UsersController.userLogin)
+router.post("/login", UsersController.userLogin);
 
-
-
-module.exports = router
+module.exports = router;
