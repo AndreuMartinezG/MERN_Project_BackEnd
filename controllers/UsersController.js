@@ -138,7 +138,7 @@ UsersController.userfollowed = async (req, res) => {
 }
 
 
-//Unfollow user /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
+//Unfollow user 
 UsersController.userUnfollow = async (req, res) => {
 
     let unfollowedId = req.body.unfollowedId;
