@@ -141,34 +141,53 @@ UsersController.userfollowed = async (req, res) => {
 //Unfollow user /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
 UsersController.userUnfollow = async (req, res) => {
 
-    let _id = req.body._id
-    let _id_followed = req.body._id_followed
-
+    let unfollowedId = req.body.unfollowedId;
+    let userId = req.body.userId;
+    //Create empty array for manage the followed field
+    let followed = [];
     try {
-        await User.findOne(
-            { _id: _id })
-        .then(userFind => {
-            console.log(userFind.followed)
+        //Find owner user
+        User.find({
+            _id: userId
+        }).then(elmnt => {
+            //Save actual followed array the variable
+            followed = elmnt[0].followed;
 
-            userFind.followed.map(value => {
-                console.log(value, "Soy valueeeeeeeeeeeeeeeee")
-                value.findByIdAndDelete({
-                    _id_followed: _id
+            //Find desired user id to unfollow
+            for(let i=0 ; i<followed.length ; i++){
+                if(followed[i].id_followed == unfollowedId){
+                    //remove it of followed array
+                    followed.splice(i, 1)
+                }
+            }
 
-                })
-                    .then(userDelete => {
+            //Update followed users
+            User.updateOne(
+                { _id: userId }, {
 
-                        console.log(userDelete);
-                        res.send(`El usuario con el nombre ha sido eliminado`);
+                $set: {
 
+                    followed: followed
+                }
+            }
+            )//If promise is done, response the edited user
+                .then(elmnt => {
+                    User.find({
+                        _id: userId
+                    }).then(user => {
+                        res.send(user)
                     })
-                
-                res.send("Has dejado de seguir a esta persona")
-            })
+                })
+
+
         })
 
+
+
+
+
     } catch (error) {
-        res.send(error)
+        res.send("backend edit user error: ", error);
     }
 
 
@@ -280,3 +299,30 @@ module.exports = UsersController;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// try {
+//     await User.findOne(
+//         { _id: _id })
+//     .then(userFind => {
+//         console.log(userFind.followed)
+
+//         userFind.followed.map(value => {
+//             console.log(value, "Soy valueeeeeeeeeeeeeeeee")
+//             value.findByIdAndDelete({
+//                 _id_followed: _id
+
+//             })
+//                 .then(userDelete => {
+
+//                     console.log(userDelete);
+//                     res.send(`El usuario con el nombre ha sido eliminado`);
+
+//                 })
+            
+//             res.send("Has dejado de seguir a esta persona")
+//         })
+//     })
+
+// } catch (error) {
+//     res.send(error)
+// }
