@@ -1,4 +1,5 @@
 const ThreadsController = {};
+const { threadId } = require('worker_threads');
 const authConfig = require('../config/auth');
 const Thread = require('../models/threads.js');
 
@@ -46,8 +47,8 @@ ThreadsController.threadDelete = async (req, res) => {
     try {
 
         await Thread.findByIdAndDelete({
-            _id: _id
-        })
+                _id: _id
+            })
             .then(threadDelete => {
                 console.log(threadDelete);
                 res.send(`The Thread named ${threadDelete.headLine} has been deleted`);
@@ -90,19 +91,18 @@ ThreadsController.threadNewPost = async (req, res) => {
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
-        await Thread.findOneAndUpdate(
-            { _id: _id },
-            {
-                $push: {
-                    post: {
-                        "id_owner": id_owner,
-                        "userName_owner": userName_owner,
-                        "headLine_post": headLine_post,
-                        "text_post": text_post
-                    }
+        await Thread.findOneAndUpdate({
+            _id: _id
+        }, {
+            $push: {
+                post: {
+                    "id_owner": id_owner,
+                    "userName_owner": userName_owner,
+                    "headLine_post": headLine_post,
+                    "text_post": text_post
                 }
             }
-        )
+        })
         res.send("New Post Created")
 
     } catch (error) {
@@ -113,9 +113,51 @@ ThreadsController.threadNewPost = async (req, res) => {
 //Delete Post by Id Owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
 ThreadsController.threadPostDelete = async (req, res) => {
 
+    let postId = req.body.postId;
+    let threadId = req.body.threadId;
+    //Create empty array for manage the followed field
+    console.log("aqui tamoooooooooo")
+    let post = [];
+    try {
+        //Find owner user
+        await Thread.find({
+            _id: threadId
+        }).then(elmnt => {
+            //Save actual followed array the variable
+            post = elmnt[0].post;
 
+            //Find desired user id to unfollow
+            console.log(post)
+            for (let i = 0; i < post.length; i++) {
+                if (post[i]._id == postId) {
+                    //remove it of followed array
+                    post.splice(i, 1)
+                }
+                console.log(post[i])
+            }
+            //Update followed users
+            Thread.updateOne({
+                    _id: threadId
+                }, {
 
+                    $set: {
+
+                        post: post
+                    }
+                }) //If promise is done, response the edited user
+                .then(elmnt => {
+                    Thread.find({
+                        _id: threadId
+                    }).then(thread => {
+                        res.send(thread)
+                    })
+                })
+        })
+    } catch (error) {
+        res.send("backend edit user error: ", error);
+    }
 }
+
 
 
 //Traer Post de un user (id_owner)
