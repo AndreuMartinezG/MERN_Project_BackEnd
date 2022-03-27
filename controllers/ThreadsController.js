@@ -116,7 +116,6 @@ ThreadsController.threadPostDelete = async (req, res) => {
     let postId = req.body.postId;
     let threadId = req.body.threadId;
     //Create empty array for manage the followed field
-    console.log("aqui tamoooooooooo")
     let post = [];
     try {
         //Find owner user
@@ -164,11 +163,10 @@ ThreadsController.threadPostDelete = async (req, res) => {
 //Traer Post de un user (id_owner)
 ThreadsController.threadPostGet = async (req, res) => {
 
-
-    let id_owner = req.body.id_owner
+    let id_owner = req.body.id_owner;
     let posts = []
     let threads = []
-    let userPosts; 
+    let userPosts = []; 
     try {
 
         await Thread.find()
@@ -182,17 +180,15 @@ ThreadsController.threadPostGet = async (req, res) => {
                     
                 }
                 userPosts = posts.filter(item => item.id_owner === id_owner)  
-                res.send(userPosts)
-                
-
-            })
-            .catch(err => {
-                res.send(err)
+                console.log(userPosts)
+                res.send(userPosts)   
             })
 
 
     } catch (error) {
-        res.send(error)
+
+        res.status(500).json({ msg: `Tu mensaje`, error: { name: error.name, message: error.message, detail: error } });
+
     }
 }
 
