@@ -178,18 +178,11 @@ UsersController.userUnfollow = async (req, res) => {
                         res.send(user)
                     })
                 })
-
-
         })
-
-
-
-
 
     } catch (error) {
         res.send("backend edit user error: ", error);
     }
-
 
 }
 

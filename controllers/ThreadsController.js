@@ -48,12 +48,12 @@ ThreadsController.threadDelete = async (req, res) => {
         await Thread.findByIdAndDelete({
             _id: _id
         })
-        .then(threadDelete => {
-            console.log(threadDelete);
-            res.send(`The Thread named ${threadDelete.headLine} has been deleted`);
-        }).catch(error=>{
-            res.send(error)
-        })
+            .then(threadDelete => {
+                console.log(threadDelete);
+                res.send(`The Thread named ${threadDelete.headLine} has been deleted`);
+            }).catch(error => {
+                res.send(error)
+            })
 
     } catch (error) {
         res.send(error);
@@ -61,7 +61,7 @@ ThreadsController.threadDelete = async (req, res) => {
 }
 
 //All Threads
-ThreadsController.threadAll = async(req, res) => {
+ThreadsController.threadAll = async (req, res) => {
 
     try {
 
@@ -79,7 +79,7 @@ ThreadsController.threadAll = async(req, res) => {
 }
 
 //New Post
-ThreadsController.threadNewPost = async(req, res) => {
+ThreadsController.threadNewPost = async (req, res) => {
 
     let _id = req.body._id
 
@@ -107,13 +107,50 @@ ThreadsController.threadNewPost = async(req, res) => {
 
     } catch (error) {
         res.send(error)
-    } 
+    }
 }
 
 //Delete Post by Id Owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
 ThreadsController.threadPostDelete = async (req, res) => {
 
 
+
+}
+
+
+//Traer Post de un user (id_owner)
+ThreadsController.threadPostGet = async (req, res) => {
+
+
+    let id_owner = req.body.id_owner
+    let posts = []
+    let threads = []
+    let userPosts; 
+    try {
+
+        await Thread.find()
+            .then(data => {
+                
+                threads = data;
+
+                for(let i=0 ; i<threads.length ; i++){
+
+                    posts = posts.concat(threads[i].post)
+                    
+                }
+                userPosts = posts.filter(item => item.id_owner === id_owner)  
+                res.send(userPosts)
+                
+
+            })
+            .catch(err => {
+                res.send(err)
+            })
+
+
+    } catch (error) {
+        res.send(error)
+    }
 }
 
 module.exports = ThreadsController;
