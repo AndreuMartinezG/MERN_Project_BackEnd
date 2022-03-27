@@ -160,6 +160,7 @@ ThreadsController.threadPostDelete = async (req, res) => {
 
 
 
+
 //Traer Post de un user (id_owner)
 ThreadsController.threadPostGet = async (req, res) => {
 

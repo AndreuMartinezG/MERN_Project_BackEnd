@@ -86,6 +86,33 @@ UsersController.userDelete = async (req, res) => {
     }
 }
 
+//updateUser
+UsersController.userUpdate = async (req, res) => {
+    let _id = req.body._id;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
+    let userName = req.body.userName;
+  
+    // Enviar Mensaje al usuario que ya sigue a esa persona
+    try {
+      await User.findOneAndUpdate(
+        { _id: _id },
+        {
+          $set: {
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "userName": userName,
+          },
+        }
+      );
+      res.send("Has modificado los datos correctamente");
+    } catch (error) {
+      res.send(error);
+    }
+};
+
 //Peril de usuario por ID
 UsersController.userProfile = async (req, res) => {
 
