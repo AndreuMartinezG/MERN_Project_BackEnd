@@ -113,7 +113,6 @@ ThreadsController.threadNewPost = async (req, res) => {
 //Delete Post by Id Owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
 ThreadsController.threadPostDelete = async (req, res) => {
 
-
     let postId = req.body.postId;
     let threadId = req.body.threadId;
     //Create empty array for manage the followed field
@@ -156,6 +155,43 @@ ThreadsController.threadPostDelete = async (req, res) => {
         })
     } catch (error) {
         res.send("backend edit user error: ", error);
+    }
+}
+
+
+
+//Traer Post de un user (id_owner)
+ThreadsController.threadPostGet = async (req, res) => {
+
+
+    let id_owner = req.body.id_owner
+    let posts = []
+    let threads = []
+    let userPosts; 
+    try {
+
+        await Thread.find()
+            .then(data => {
+                
+                threads = data;
+
+                for(let i=0 ; i<threads.length ; i++){
+
+                    posts = posts.concat(threads[i].post)
+                    
+                }
+                userPosts = posts.filter(item => item.id_owner === id_owner)  
+                res.send(userPosts)
+                
+
+            })
+            .catch(err => {
+                res.send(err)
+            })
+
+
+    } catch (error) {
+        res.send(error)
     }
 }
 

@@ -21,6 +21,10 @@ router.post('/post', ThreadsController.threadNewPost)
 router.delete('/post', ThreadsController.threadPostDelete)
 
 
+//Traer Post de un user (id_owner)
+router.get ('/post', ThreadsController.threadPostGet)
+
+
 
 
 
