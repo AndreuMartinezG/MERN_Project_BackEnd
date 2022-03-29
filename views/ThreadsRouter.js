@@ -15,7 +15,7 @@ router.delete('/', ThreadsController.threadDelete);
 router.get('/', ThreadsController.threadAll)
 
 //New Post
-//router.post('/post', ThreadsController.threadNewPost)
+router.post('/post', ThreadsController.threadNewPost)
 
 //Delete Post by id owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
 router.delete('/post', ThreadsController.threadPostDelete)
