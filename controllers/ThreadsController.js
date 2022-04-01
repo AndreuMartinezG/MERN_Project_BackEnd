@@ -115,6 +115,8 @@ ThreadsController.threadPostDelete = async (req, res) => {
 
     let postId = req.body.postId;
     let threadId = req.body.threadId;
+
+    console.log({ threadId, postId})
     //Create empty array for manage the followed field
     let post = [];
     try {
@@ -122,6 +124,7 @@ ThreadsController.threadPostDelete = async (req, res) => {
         await Thread.find({
             _id: threadId
         }).then(elmnt => {
+            console.log(elmnt)
             //Save actual followed array the variable
             post = elmnt[0].post;
 
@@ -153,7 +156,7 @@ ThreadsController.threadPostDelete = async (req, res) => {
                 })
         })
     } catch (error) {
-        res.send("backend edit user error: ", error);
+        res.send("backend edit user error: " + error);
     }
 }
 
@@ -191,5 +194,69 @@ ThreadsController.threadPostGet = async (req, res) => {
 
     }
 }
+
+
+/**
+ * Update thread post
+ */
+ThreadsController.threadUpdatePost = async (req, res) => {
+    const {
+        threadId,
+        postId,
+        postContent
+    } = req.body;
+
+    console.log(req.body)
+
+    const thread = await Thread.findOne({ _id: threadId });
+
+    if(!thread) {
+        console.log('Thread not found');
+        return res.status(404).send('Not found');
+    }
+
+    const post = thread.post.find(p => p._id.equals(postId));
+    
+    if(!post) {
+        console.log('Post not found');
+        return res.status(404).send('Not found');
+    }
+
+    post.text_post = postContent;
+
+    await thread.save();
+
+    res.send();
+}
+
+
+ThreadsController.threadPostIncrementLikes = async (req, res) => {
+    const {
+        threadId,
+        postId
+    } = req.body;
+
+    console.log(req.body)
+
+    const thread = await Thread.findOne({ _id: threadId });
+
+    if(!thread) {
+        console.log('Thread not found');
+        return res.status(404).send('Not found');
+    }
+    
+    const post = thread.post.find(p => p._id.equals(postId));
+    
+    if(!post) {
+        console.log('Post not found');
+        return res.status(404).send('Not found');
+    }
+
+    post.likes = post.likes >= 0 ? post.likes + 1 : 1;
+
+    await thread.save();
+
+    res.send();
+};
 
 module.exports = ThreadsController;
