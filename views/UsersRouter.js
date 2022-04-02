@@ -28,4 +28,6 @@ router.delete("/followed", UsersController.userUnfollow);
 //Login
 router.post("/login", UsersController.userLogin);
 
+router.post("/results/:name", UsersController.userSearchByName);
+
 module.exports = router;

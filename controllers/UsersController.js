@@ -157,6 +157,16 @@ UsersController.userfollowed = async (req, res) => {
                 }
             }
         )
+        await  User.findOneAndUpdate(
+            { _id: id_followed },
+            {
+                $push: {
+                    followers: {
+                        "id_follower": _id
+                    }
+                }
+            }
+        )
         res.send("Has Comenzado a seguir a esta persona")
 
     } catch (error) {
@@ -259,6 +269,18 @@ UsersController.userLogin = async (req, res) => {
 
 }
 
+UsersController.userSearchByName = async (req, res) => {
+    
+        let name = req.params.name;
+    
+        User.find({
+            firstName: name
+        }).then(data => {
+            res.send(data)
+        }).catch(error => {
+            res.send(error)
+        })
+}
 
 module.exports = UsersController;
 
@@ -266,90 +288,3 @@ module.exports = UsersController;
 
 
 
-// let _id = req.body._id
-// let id_followed = req.body.id_followed
-
-// try {
-//     await User.findOne(
-//         { _id: _id })
-//     .then(userFind => {
-
-//         userFind.followed.map(value => {
-//             console.log(value, "VALUEEEEEEEEEEEEEEEEEEEEEEE")
-//             if (value.id_followed === (id_followed)){
-//                 value.find()
-                
-//             }else{
-//                 console.log("Nainnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
-//             }
-//         })
-//     })
-    
-//     res.send("Has dejado de seguir a esta persona")
-
-// } catch (error) {
-//     res.send(error)
-// }
-
-
-////////////////////////////////////////////////////////////////////////////////////////version 2 entra en el if ///////////////////////////
-
-
-// try {
-//     await User.findOne(
-//         { _id: _id })
-//     .then(userFind => {
-
-//         userFind.followed.map(value => {
-//             console.log(value, "VALUEEEEEEEEEEEEEEEEEEEEEEE")
-//             if (value.id_followed === (id_followed)){
-//                 console.log("entramossssssssssssssssssssssss")
-//                 value.deleteOne()
-//                 .then(res=>{
-//                     console.log("entramos en el delete")
-//                     res.send(res)
-//                 }).catch(error => {
-//                     res.send(error)
-//                 })
-                
-//             }else{
-//                 console.log("Nainnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
-//             }
-//         })
-//     })
-    
-//     res.send("Has dejado de seguir a esta persona")
-
-// } catch (error) {
-//     res.send(error)
-// }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// try {
-//     await User.findOne(
-//         { _id: _id })
-//     .then(userFind => {
-//         console.log(userFind.followed)
-
-//         userFind.followed.map(value => {
-//             console.log(value, "Soy valueeeeeeeeeeeeeeeee")
-//             value.findByIdAndDelete({
-//                 _id_followed: _id
-
-//             })
-//                 .then(userDelete => {
-
-//                     console.log(userDelete);
-//                     res.send(`El usuario con el nombre ha sido eliminado`);
-
-//                 })
-            
-//             res.send("Has dejado de seguir a esta persona")
-//         })
-//     })
-
-// } catch (error) {
-//     res.send(error)
-// }
