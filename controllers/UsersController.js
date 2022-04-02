@@ -145,6 +145,17 @@ UsersController.userfollowed = async (req, res) => {
 
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
+
+        await  User.findOneAndUpdate(
+            { _id: id_followed },
+            {
+                $push: {
+                    followers: {
+                        "id_follower": _id
+                    }
+                }
+            }
+        )
         await User.findOneAndUpdate(
             { _id: _id },
             {
@@ -156,18 +167,12 @@ UsersController.userfollowed = async (req, res) => {
                     }
                 }
             }
-        )
-        await  User.findOneAndUpdate(
-            { _id: id_followed },
-            {
-                $push: {
-                    followers: {
-                        "id_follower": _id
-                    }
-                }
-            }
-        )
-        res.send("Has Comenzado a seguir a esta persona")
+        ).then(value => {
+            res.json({
+                user: value
+            })
+        })
+        res.send(udpatedUser)
 
     } catch (error) {
         res.send(error)
