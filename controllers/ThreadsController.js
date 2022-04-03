@@ -4,7 +4,7 @@ const authConfig = require('../config/auth');
 const Thread = require('../models/threads.js');
 
 
-jThreadsController.threadCreation = async (req, res) => {
+ThreadsController.threadCreation = async (req, res) => {
 
     let id_owner = req.body.id_owner
     let userName_owner = req.body.userName_owner
