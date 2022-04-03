@@ -28,6 +28,7 @@ router.delete("/followed", UsersController.userUnfollow);
 //Login
 router.post("/login", UsersController.userLogin);
 
-router.post("/results/:name", UsersController.userSearchByName);
+//Buscar usuario por nickname/username
+router.post("/results/:userName", UsersController.userSearchByUserName);
 
 module.exports = router;

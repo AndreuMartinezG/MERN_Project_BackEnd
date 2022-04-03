@@ -276,12 +276,14 @@ UsersController.userLogin = async (req, res) => {
 
 }
 
-UsersController.userSearchByName = async (req, res) => {
 
-    let name = req.params.name;
+//Buscar usuario por nickname/username
+UsersController.userSearchByUserName = async (req, res) => {
+
+    let userName = req.params.userName;
 
     User.find({
-        firstName: name
+        userName: userName
     }).then(data => {
         res.send(data)
     }).catch(error => {
