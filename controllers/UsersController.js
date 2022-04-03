@@ -204,8 +204,10 @@ UsersController.userUnfollow = async (req, res) => {
                 if (followers[i].id_follower == userId) {
                     //remove it of followers array
                     followers.splice(i, 1)
+                    console.log("entramos en el if")
                 }
             }
+            console.log(followers, "resultado de followers antes de actualizar el campo")
 
             //Update followers users
             User.updateOne(
@@ -216,7 +218,11 @@ UsersController.userUnfollow = async (req, res) => {
                     followers: followers
                 }
             }
-            )
+            ).then(data => {
+                console.log(data, "resultado de followers despues de actualizar el campo")
+            }).catch(error => {
+                console.log(error)
+            })
         })
 
 
