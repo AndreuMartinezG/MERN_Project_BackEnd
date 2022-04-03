@@ -4,8 +4,7 @@ const authConfig = require('../config/auth');
 const Thread = require('../models/threads.js');
 
 
-//Creacion de nuevos Threads
-ThreadsController.threadCreation = async (req, res) => {
+jThreadsController.threadCreation = async (req, res) => {
 
     let id_owner = req.body.id_owner
     let userName_owner = req.body.userName_owner
@@ -39,7 +38,6 @@ ThreadsController.threadCreation = async (req, res) => {
 
 }
 
-//Delete Threads by Id
 ThreadsController.threadDelete = async (req, res) => {
 
     let _id = req.body._id
@@ -61,7 +59,6 @@ ThreadsController.threadDelete = async (req, res) => {
     }
 }
 
-//All Threads
 ThreadsController.threadAll = async (req, res) => {
 
     try {
@@ -79,7 +76,6 @@ ThreadsController.threadAll = async (req, res) => {
     }
 }
 
-//New Post
 ThreadsController.threadNewPost = async (req, res) => {
 
     let _id = req.body._id
@@ -110,7 +106,6 @@ ThreadsController.threadNewPost = async (req, res) => {
     }
 }
 
-//Delete Post by Id Owner //////////////////////////////////////// POR TERMINAR ///////////////////////////////////////
 ThreadsController.threadPostDelete = async (req, res) => {
 
     let postId = req.body.postId;
@@ -160,7 +155,6 @@ ThreadsController.threadPostDelete = async (req, res) => {
     }
 }
 
-//Traer Post de un user (id_owner)
 ThreadsController.threadPostGet = async (req, res) => {
 
     let id_owner = req.body.id_owner;
@@ -192,10 +186,6 @@ ThreadsController.threadPostGet = async (req, res) => {
     }
 }
 
-
-/**
- * Update thread post
- */
 ThreadsController.threadUpdatePost = async (req, res) => {
     const {
         threadId,
@@ -225,7 +215,6 @@ ThreadsController.threadUpdatePost = async (req, res) => {
 
     res.send();
 }
-
 
 ThreadsController.threadPostIncrementLikes = async (req, res) => {
     const {

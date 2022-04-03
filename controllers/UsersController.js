@@ -4,7 +4,6 @@ const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-//Registro de usuarios
 UsersController.userRegister = async (req, res) => {
 
     //Registrando un usuario
@@ -45,7 +44,6 @@ UsersController.userRegister = async (req, res) => {
     });
 };
 
-//Traer a todos los usuarios
 UsersController.allUser = async (req, res) => {
 
     try {
@@ -63,7 +61,6 @@ UsersController.allUser = async (req, res) => {
     }
 }
 
-//Borrar un usuario
 UsersController.userDelete = async (req, res) => {
 
     let _id = req.body._id
@@ -86,7 +83,6 @@ UsersController.userDelete = async (req, res) => {
     }
 }
 
-//updateUser
 UsersController.userUpdate = async (req, res) => {
     let _id = req.body._id;
     let firstName = req.body.firstName;
@@ -113,7 +109,6 @@ UsersController.userUpdate = async (req, res) => {
     }
 };
 
-//Peril de usuario por ID
 UsersController.userProfile = async (req, res) => {
 
     let _id = req.body._id
@@ -134,7 +129,6 @@ UsersController.userProfile = async (req, res) => {
     }
 }
 
-// FUNCION PARA AÑADIR NUEVOS AMIGOS
 UsersController.userfollowed = async (req, res) => {
 
     let _id = req.body._id
@@ -181,8 +175,6 @@ UsersController.userfollowed = async (req, res) => {
     }
 }
 
-
-//Unfollow user /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
 UsersController.userUnfollow = async (req, res) => {
     console.log(req.body, "entra a unfollow")
     let unfollowedId = req.body.unfollowedId;
@@ -266,7 +258,6 @@ UsersController.userUnfollow = async (req, res) => {
 
 }
 
-//LOGIN
 UsersController.userLogin = async (req, res) => {
 
     let email = req.body.email;
@@ -305,8 +296,6 @@ UsersController.userLogin = async (req, res) => {
 
 }
 
-
-//Buscar usuario por nickname/username
 UsersController.userSearchByUserName = async (req, res) => {
 
     let userName = req.params.userName;
