@@ -69,7 +69,7 @@ UsersController.userDelete = async (req, res) => {
     let _id = req.body._id
 
     try {
-        
+
 
         await User.findByIdAndDelete({
             _id: _id
@@ -77,7 +77,7 @@ UsersController.userDelete = async (req, res) => {
             .then(userDelete => {
                 console.log(userDelete);
                 res.send(`El usuario con el nombre ${userDelete.firstName} ha sido eliminado`);
-            }).catch(error =>{
+            }).catch(error => {
                 res.send(error)
             })
 
@@ -93,23 +93,23 @@ UsersController.userUpdate = async (req, res) => {
     let lastName = req.body.lastName;
     let email = req.body.email;
     let userName = req.body.userName;
-  
+
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
-      await User.findOneAndUpdate(
-        { _id: _id },
-        {
-          $set: {
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "userName": userName,
-          },
-        }
-      );
-      res.send("Has modificado los datos correctamente");
+        await User.findOneAndUpdate(
+            { _id: _id },
+            {
+                $set: {
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "email": email,
+                    "userName": userName,
+                },
+            }
+        );
+        res.send("Has modificado los datos correctamente");
     } catch (error) {
-      res.send(error);
+        res.send(error);
     }
 };
 
@@ -146,7 +146,7 @@ UsersController.userfollowed = async (req, res) => {
     // Enviar Mensaje al usuario que ya sigue a esa persona
     try {
 
-        await  User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { _id: id_followed },
             {
                 $push: {
@@ -167,16 +167,18 @@ UsersController.userfollowed = async (req, res) => {
                     }
                 }
             }
-        ).then(value => {
-            res.json({
-                user: value
-            })
+        )
+        await User.findById({
+            _id: _id
+        }).then(data => {
+            res.send(data)
+        }).catch(error => {
+            res.send(error)
         })
-        res.send(udpatedUser)
 
     } catch (error) {
         res.send(error)
-    } 
+    }
 }
 
 
@@ -196,8 +198,8 @@ UsersController.userUnfollow = async (req, res) => {
             followed = elmnt[0].followed;
 
             //Find desired user id to unfollow
-            for(let i=0 ; i<followed.length ; i++){
-                if(followed[i].id_followed == unfollowedId){
+            for (let i = 0; i < followed.length; i++) {
+                if (followed[i].id_followed == unfollowedId) {
                     //remove it of followed array
                     followed.splice(i, 1)
                 }
@@ -275,16 +277,16 @@ UsersController.userLogin = async (req, res) => {
 }
 
 UsersController.userSearchByName = async (req, res) => {
-    
-        let name = req.params.name;
-    
-        User.find({
-            firstName: name
-        }).then(data => {
-            res.send(data)
-        }).catch(error => {
-            res.send(error)
-        })
+
+    let name = req.params.name;
+
+    User.find({
+        firstName: name
+    }).then(data => {
+        res.send(data)
+    }).catch(error => {
+        res.send(error)
+    })
 }
 
 module.exports = UsersController;
