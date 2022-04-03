@@ -184,14 +184,44 @@ UsersController.userfollowed = async (req, res) => {
 
 //Unfollow user /////////////////////////////////////////////////POR TERMINAR ///////////////////////////
 UsersController.userUnfollow = async (req, res) => {
-
+    console.log(req.body, "entra a unfollow")
     let unfollowedId = req.body.unfollowedId;
     let userId = req.body.userId;
+    console.log(unfollowedId, userId, "entra a unfollow")
     //Create empty array for manage the followed field
     let followed = [];
     try {
-        //Find owner user
-        User.find({
+        
+        //Find user unfollowed to clean the followers array
+        await User.find({
+            _id: unfollowedId
+        }).then(elmnt => {
+            //Save actual followers array the variable
+            let followers = elmnt[0].followers;
+
+            //Find desired user id to unfollow
+            for (let i = 0; i < followers.length; i++) {
+                if (followers[i].id_follower == userId) {
+                    //remove it of followers array
+                    followers.splice(i, 1)
+                }
+            }
+
+            //Update followers users
+            User.updateOne(
+                { _id: unfollowedId }, {
+
+                $set: {
+
+                    followers: followers
+                }
+            }
+            )
+        })
+
+
+        //Find owner user to clean the followed array
+        await User.find({
             _id: userId
         }).then(elmnt => {
             //Save actual followed array the variable
@@ -222,18 +252,11 @@ UsersController.userUnfollow = async (req, res) => {
                         res.send(user)
                     })
                 })
-
-
         })
 
-
-
-
-
     } catch (error) {
-        res.send("backend edit user error: ", error);
+        res.send(error);
     }
-
 
 }
 
